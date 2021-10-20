@@ -5,12 +5,12 @@ import { useFetch } from '../../hooks/useFetch'
 
 import './multipleCustomHooks.css'
 
-const MultipeCustomHooks = () => {
+const MultipleCustomHooks = () => {
 
     const { counter, increment } = useCounter(1)
 
     const { loading, data } = useFetch( `https://www.breakingbadapi.com/api/quotes/${ counter }` );
-    console.log(data);
+    
 
     const { author, quote } = !!data && data[0];
    
@@ -48,4 +48,4 @@ const MultipeCustomHooks = () => {
     )
 }
 
-export default MultipeCustomHooks
+export default MultipleCustomHooks
