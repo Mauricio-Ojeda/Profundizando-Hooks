@@ -20,7 +20,7 @@ export const useFetch = ( url ) => {
             .then( resp => resp.json() )
             .then( data => {
                                 
-                if (isMounted.curre) {
+                if (isMounted.current) {
                         setState({
                             loading: false,
                             error: null,
