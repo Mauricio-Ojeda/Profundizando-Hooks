@@ -1,3 +1,23 @@
-body{
-    padding: 70px;
+
+
+p{
+    margin: 0;
+    cursor: pointer;
+}
+
+.row-main{
+   justify-content: center;
+}
+
+.row-li{
+    justify-content: space-between;
+}
+
+.list-group-item{
+    padding: 0;
+}
+
+
+.complete{
+    text-decoration: line-through;
 }
