@@ -1,26 +1,48 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
+import { useForm } from '../../hooks/useForm';
 import './todoApp.css';
 import { todoReducer } from './todoReducer';
 
 
-const initialState = [{
-    id: new Date().getTime(),
-    desc: 'Aprender React',
-    done: true
-}];
+// const initialState = [{
+//     id: new Date().getTime(),
+//     desc: 'Aprender React',
+//     done: true
+// }];
+
+const init = () => {
+    return JSON.parse( localStorage.getItem( 'todos' ) ) || [];
+
+}
 
 const TodoApp = () => {
 
+    const [error, setError] = useState(false);
+    const [ todos, dispatch ] = useReducer(todoReducer, [], init);
 
-    const [ todos, dispatch ] = useReducer(todoReducer, initialState)
+    const [{ description }, HandleInputChage, reset] = useForm({
+        description: ''
+    })
+
+    useEffect(() => {
+        localStorage.setItem( 'todos', JSON.stringify( todos ) );
+        
+    }, [todos]);
 
     const handleOnSubmit = ( e ) => {
-        console.log(todos);
+       
         e.preventDefault();
-        console.log('handle on sumbit')
-        const newTodo = {
+
+        if( description.trim().length <=1 ){
+            setError(true);
+            return;
+        }
+
+        setError(false);
+        
+       const newTodo = {
                 id: new Date().getTime(),
-                desc: 'Aprender BackEnd',
+                desc: description,
                 done: false
         };
 
@@ -30,6 +52,7 @@ const TodoApp = () => {
         };
         
         dispatch( action )
+        reset();
     }
 
     return (
@@ -59,11 +82,22 @@ const TodoApp = () => {
                         </ul>
                 </div>
                 <div className="col-md-4">
-                            <h4>Agregar Todo</h4>
+                            { ( error ) ? <h4 className="bg-danger text-light p-4 "> Debe completar correctamente el campo </h4> : <h4>Agregar Todo</h4> }
                             <hr />
                             <form className="form-group" onSubmit={ handleOnSubmit }>
-                                <input type="text" className="form-control mb-3" />
-                                <button type="submit" className="btn btn-block btn-outline-success">Agregar</button>
+                                <input 
+                                    type="text" 
+                                    className="form-control mb-3" 
+                                    name="description"
+                                    placeholder="Aprender..."
+                                    autoComplete="off"
+                                    value={ description }
+                                    onChange={ HandleInputChage }
+                                />
+                                <button 
+                                    type="submit" 
+                                    className="btn btn-block btn-outline-success"
+                                >Agregar</button>
                             </form>
                 </div>
             </div>
