@@ -40,6 +40,15 @@ const TodoApp = () => {
 
     }
 
+    const handleToggle = ( todoId ) => {
+
+        dispatch({
+            type:'toggle',
+            payload: todoId
+        })
+
+    }
+
     const handleOnSubmit = ( e ) => {
        
         e.preventDefault();
@@ -74,11 +83,16 @@ const TodoApp = () => {
                 <div className="col-md-4">
                         <ul className="list-group list-group-flush">
                             {
-                                todos.map( ({ id, desc }, index) => (
+                                todos.map( ({ id, desc, done }, index) => (
                                     <li key={id} className="list-group-item " >
                                             <div className="row row-li p-3">
                                                 <div className="col-8">
-                                                    <p className="text-left"> {index + 1}. { desc }  </p>
+                                                    <p 
+                                                        className={ `${ done && 'complete text-left' }` }
+                                                        onClick={ () => handleToggle(id) }
+                                                    > 
+                                                        {index + 1}. { desc }  
+                                                    </p>
 
                                                 </div>
                                                 <div className="col-4 ">
