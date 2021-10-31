@@ -1,8 +1,9 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { useForm } from '../../hooks/useForm';
-import './todoApp.css';
+import React, { useEffect, useReducer } from 'react';
+import TodoAdd from './TodoAdd';
 import TodoList from './TodoList';
 import { todoReducer } from './todoReducer';
+
+import './todoApp.css';
 
 
 // const initialState = [{
@@ -18,12 +19,8 @@ const init = () => {
 
 const TodoApp = () => {
 
-    const [error, setError] = useState(false);
-    const [ todos, dispatch ] = useReducer(todoReducer, [], init);
-
-    const [{ description }, HandleInputChage, reset] = useForm({
-        description: ''
-    })
+    
+    const [ todos, dispatch ] = useReducer(todoReducer, [], init);   
 
     useEffect(() => {
         localStorage.setItem( 'todos', JSON.stringify( todos ) );
@@ -50,31 +47,12 @@ const TodoApp = () => {
 
     }
 
-    const handleOnSubmit = ( e ) => {
-       
-        e.preventDefault();
-
-        if( description.trim().length <=1 ){
-            setError(true);
-            return;
-        }
-
-        setError(false);
-        
-       const newTodo = {
-                id: new Date().getTime(),
-                desc: description,
-                done: false
-        };
-
-        const action = {
+    const handleAddTodo = ( newTodo ) => {
+        dispatch({
             type: 'add',
             payload: newTodo
-        };
-        
-        dispatch( action );
-        reset();
-    }
+        });
+    }    
 
     return (
         <div className="container mt-4">
@@ -89,23 +67,10 @@ const TodoApp = () => {
                        />
                 </div>
                 <div className="col-md-4">
-                            { ( error ) ? <h4 className="bg-danger text-light p-4 "> Debe completar correctamente el campo </h4> : <h4>Agregar Todo</h4> }
-                            <hr />
-                            <form className="form-group" onSubmit={ handleOnSubmit }>
-                                <input 
-                                    type="text" 
-                                    className="form-control mb-3" 
-                                    name="description"
-                                    placeholder="Aprender..."
-                                    autoComplete="off"
-                                    value={ description }
-                                    onChange={ HandleInputChage }
-                                />
-                                <button 
-                                    type="submit" 
-                                    className="btn btn-block btn-outline-success"
-                                >Agregar</button>
-                            </form>
+                            <TodoAdd
+                                handleAddTodo={ handleAddTodo }
+
+                            />
                 </div>
             </div>
         </div>
