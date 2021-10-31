@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import './todoApp.css';
+import TodoList from './TodoList';
 import { todoReducer } from './todoReducer';
 
 
@@ -81,35 +82,11 @@ const TodoApp = () => {
             <hr/>
             <div className="row row-main">
                 <div className="col-md-4">
-                        <ul className="list-group list-group-flush">
-                            {
-                                todos.map( ({ id, desc, done }, index) => (
-                                    <li key={id} className="list-group-item " >
-                                            <div className="row row-li p-3">
-                                                <div className="col-8">
-                                                    <p 
-                                                        className={ `${ done && 'complete text-left' }` }
-                                                        onClick={ () => handleToggle(id) }
-                                                    > 
-                                                        {index + 1}. { desc }  
-                                                    </p>
-
-                                                </div>
-                                                <div className="col-4 ">
-                                                    <button 
-                                                        onClick={ () => handleDelete( id ) } 
-                                                        className="btn btn-outline-danger d-flex justify-content-end"
-                                                    >   
-                                                        Borrar 
-                                                    </button>
-
-                                                </div>
-                                            </div>
-                                            
-                                    </li>
-                                ))
-                            }
-                        </ul>
+                       <TodoList 
+                           todos={ todos }
+                           handleDelete={ handleDelete }
+                           handleToggle={ handleToggle }
+                       />
                 </div>
                 <div className="col-md-4">
                             { ( error ) ? <h4 className="bg-danger text-light p-4 "> Debe completar correctamente el campo </h4> : <h4>Agregar Todo</h4> }
