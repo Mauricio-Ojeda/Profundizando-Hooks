@@ -29,6 +29,17 @@ const TodoApp = () => {
         
     }, [todos]);
 
+    const handleDelete = ( todoId ) => {
+
+        const action = {
+            type: 'delete',
+            payload: todoId
+        };
+        
+        dispatch( action );
+
+    }
+
     const handleOnSubmit = ( e ) => {
        
         e.preventDefault();
@@ -51,7 +62,7 @@ const TodoApp = () => {
             payload: newTodo
         };
         
-        dispatch( action )
+        dispatch( action );
         reset();
     }
 
@@ -71,7 +82,12 @@ const TodoApp = () => {
 
                                                 </div>
                                                 <div className="col-4 ">
-                                                    <button className="btn btn-outline-danger d-flex justify-content-end">Borrar</button>
+                                                    <button 
+                                                        onClick={ () => handleDelete( id ) } 
+                                                        className="btn btn-outline-danger d-flex justify-content-end"
+                                                    >   
+                                                        Borrar 
+                                                    </button>
 
                                                 </div>
                                             </div>
