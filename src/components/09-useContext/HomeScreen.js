@@ -3,20 +3,19 @@ import { UserContext } from './UserContext'
 
 const HomeScreen = () => {
     
-    const userContext = useContext(UserContext);
-    const {id, name, surname} = userContext;
-    console.log(userContext)
+    const { user } = useContext(UserContext);
+  
+    console.log(user)
 
     return (
         <div>
             <h1>HomeScreen</h1>
             <hr />
-            <ul>
-                <li>{ id }</li>
-                <li>{ name }</li>
-                <li>{ surname }</li>
-            </ul>
+            <pre>
+                { JSON.stringify(user, null, 3) }
+            </pre>
         </div>
+
     )
 }
 
