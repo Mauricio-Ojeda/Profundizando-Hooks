@@ -17,7 +17,7 @@ import MainApp from './components/09-useContext/MainApp';
 // import HookApp from './HookApp';
 // import './components/08-useReducer/intro-reducer'
 
-//import './index.css'
+import './index.css'
 
 
 ReactDOM.render(
