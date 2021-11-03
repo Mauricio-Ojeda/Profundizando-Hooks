@@ -12,7 +12,7 @@ describe('pruebas en useForm', () => {
         const { result } = renderHook( () => useForm(initialFormState) )
         const [values, handleInputChange, reset] = result.current;
         
-        expect( values ).toBe( initialFormState );
+        expect( values ).toEqual( initialFormState );
         expect( typeof values ).toBe( 'object' );
         expect( typeof handleInputChange ).toBe( 'function' );
         expect( typeof reset ).toBe( 'function' );
@@ -20,35 +20,44 @@ describe('pruebas en useForm', () => {
     })    
     
     test('debe cambiar el valor del formulario (solo el Name)', () => {
-        const initialForm = {
-            name:'Mauricio',
-            surname:'Ojeda'
-        };
-        const { result, rerender } = renderHook( () => useForm(initialForm) )
-        const [values, handleInputChange, reset] = result.current;
         
-        rerender( { name:'Carlos' } )
-
-        const e = { target : { name: 'Carlos' } } 
+        const { result } = renderHook( () => useForm(initialFormState) )
+        const [ , handleInputChange ] = result.current;
         
-        console.log(values.name)
-
         act( () => {
-            handleInputChange( e );
+            handleInputChange( { 
+                target : { 
+                    name: 'name', 
+                    value:'Carlos'
+                    } 
+                } 
+            );
         })
+
+        const [ valuesForm ] = result.current;
         
-        expect( values.name ).toBe('Carlos');
+        expect( valuesForm ).toEqual({...initialFormState, name:'Carlos'});
         
     })    
     
     test('debe reestablecerse el formulario con Reset', () => {
         const { result } = renderHook( () => useForm(initialFormState) )
-        const [values, handleInputChange, reset] = result.current;
+        const [ , handleInputChange, reset ] = result.current;
         
-        expect( values ).toBe( initialFormState );
-        expect( typeof values ).toBe( 'object' );
-        expect( typeof handleInputChange ).toBe( 'function' );
-        expect( typeof reset ).toBe( 'function' );
+        act( () => {
+            handleInputChange( { 
+                target : { 
+                    name: 'name', 
+                    value:'Carlos'
+                    } 
+                } 
+            );
+            reset();
+        })
+
+        const [ valuesForm ] = result.current;
+                
+        expect( valuesForm ).toEqual( initialFormState );
         
     })    
 })
