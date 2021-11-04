@@ -29,7 +29,15 @@ export const useFetch = ( url ) => {
                     
                 }
 
-            } )
+            } ).catch( () => {
+                setState({
+                    data: null,
+                    loading: true,
+                    error: 'No se pudo encontar la info'
+                })
+            }
+                
+             )
     }, [url])
 
     return state
